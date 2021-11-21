@@ -33,6 +33,11 @@ public class Player : MonoBehaviour
     /// Speed of rotation animation in degrees.
     /// </summary>
     public float rotationSpeed = 30.0f;
+    
+    /// <summary>
+    /// Speed of rotation animation in degrees added when in air.
+    /// </summary>
+    public float inAirSpeed = 30.0f;
 
     /// <summary>
     /// Which axes should be rotated?
@@ -100,6 +105,11 @@ public class Player : MonoBehaviour
     private float mCurrentGravity = 0.5f;
     
     /// <summary>
+    /// Speed of rotation animation in degrees.
+    /// </summary>
+    private float spriteRotationSpeed = 0f;
+    
+    /// <summary>
     /// Called before the first frame update.
     /// </summary>
     void Start()
@@ -128,10 +138,20 @@ public class Player : MonoBehaviour
         // Impart the initial impulse if we are jumping.
         if (jumpMovement && onGround)
         { mRB.velocity = -Physics2D.gravity * jumpVelocity; }
-        
+
         // Switch gravity with vertical movement.
         if (verticalMovement != 0.0 && !mSwitchedGravity)
         {
+            // Impart the initial impulse if we are jumping.
+            if (!onGround)
+            {
+                spriteRotationSpeed = rotationSpeed + inAirSpeed;
+            }
+            else
+            {
+                spriteRotationSpeed = rotationSpeed;
+            }
+            
             mCurrentGravity = verticalMovement > 0.0f ? 1.0f : -1.0f;
             Physics2D.gravity = mCurrentGravity * new Vector2(
                 Math.Abs(Physics2D.gravity.x),
@@ -173,7 +193,7 @@ public class Player : MonoBehaviour
         { // While in mid-air, we can rotate.
             mSpriteTransform.rotation = Quaternion.RotateTowards(
                 mSpriteTransform.rotation, mTargetRotation, 
-                rotationSpeed * Time.fixedDeltaTime
+                spriteRotationSpeed * Time.fixedDeltaTime
             );
         }
         else
