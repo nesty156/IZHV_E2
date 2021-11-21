@@ -11,6 +11,11 @@ using Random = UnityEngine.Random;
 public class Spawner : MonoBehaviour
 {
     /// <summary>
+    /// Score pro multiplayer
+    /// </summary>
+    private float score = 0.0f;
+    
+    /// <summary>
     /// Should we spawn obstacles?
     /// </summary>
     public bool spawnObstacles = true;
@@ -66,6 +71,7 @@ public class Spawner : MonoBehaviour
     /// </summary>
     void Update()
     {
+        score += Time.deltaTime;
         if (spawnObstacles)
         { // Check if we should spawn.
             spawnAccumulator += Time.deltaTime;
@@ -75,6 +81,20 @@ public class Spawner : MonoBehaviour
                 nextSpawnIn = RandomNormal(spawnFrequencyMean, spawnFrequencyStd);
                 
                 SpawnObstacle();
+            }
+        }
+
+        //Random movements for blocks
+        if (score > 15.0f)
+        {
+            score -= 15.0f;
+            if (RandomBool())
+            {
+                ModifyObstacleSpeed(1.5f);
+            }
+            else
+            {
+                ModifyObstacleSpeed(0.75f);
             }
         }
     }

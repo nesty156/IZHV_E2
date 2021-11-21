@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         // Loose the game.
         mGameLost = true;
     }
-    
+
     /// <summary>
     /// Get child of a GameObject by name.
     /// </summary>
