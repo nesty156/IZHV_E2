@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Velocity multiplier applied when jumping.
     /// </summary>
-    public float jumpVelocity = 100.0f;
+    public float jumpVelocity = 200.0f;
 
     /// <summary>
     /// Distance to which ground should be detected.
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Current state of gravity - 1.0 for down, -1.0f for up.
     /// </summary>
-    private float mCurrentGravity = 1.0f;
+    private float mCurrentGravity = 0.5f;
     
     /// <summary>
     /// Called before the first frame update.
